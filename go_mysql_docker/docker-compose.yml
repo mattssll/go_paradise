@@ -1,0 +1,31 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+volumes:
+  go-mysql-db:
+
+services:
+
+  mysqldb:
+    platform: linux/x86_64  # fix for mac os m1
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: testdb
+    volumes:
+      - "go-mysql-db:/app/local-mysql-db-data"
+  adminer: # to access mysql in port 8080
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  go:
+    build: .
+    ports:
+    - "3000:3000"
+    environment:
+      - PORT=3000
+    volumes:
+      - "./sqlite-gorest-db:/app/local-db"
