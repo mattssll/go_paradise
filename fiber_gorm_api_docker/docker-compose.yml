@@ -2,6 +2,8 @@ version: "2.0"
 services:
   myrestapi:
     build: .
+    image: gcr.io/vectux-01/myrestapi
+    platform: linux/x86_64
     ports:
     - "3000:3000"
     environment:

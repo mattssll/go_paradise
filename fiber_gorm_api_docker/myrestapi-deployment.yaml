@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.26.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: myrestapi
+  name: myrestapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: myrestapi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.26.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: myrestapi
+    spec:
+      containers:
+        - env:
+            - name: PORT
+              value: "3000"
+          image: gcr.io/vectux-01/myrestapi
+          name: myrestapi
+          ports:
+            - containerPort: 3000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app/local-db
+              name: myrestapi-claim0
+      restartPolicy: Always
+      volumes:
+        - name: myrestapi-claim0
+          persistentVolumeClaim:
+            claimName: myrestapi-claim0
+status: {}

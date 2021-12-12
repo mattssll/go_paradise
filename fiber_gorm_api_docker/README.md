@@ -16,3 +16,15 @@ app.Get("api/v1/book/:id", book.GetBook)
 app.Post("api/v1/book", book.NewBook)
 app.Delete("api/v1/book/:id", book.DeleteBook)
 ```
+
+## Kubernetes deploy
+The kubernetes deploy was made with kompose <br>
+Kompose transforms docker-compose into kubernetes.yml files.
+### How?
+```
+docker compose build myrestapi
+docker push gcr.io/gcpproject/myrestapi 
+kompose convert -f docker-compose.yml
+bash k8deploy.sh
+```
+

@@ -1,0 +1,1 @@
+kubectl delete -f mysqldb-deployment.yaml,mysqlvolume-persistentvolumeclaim.yaml,go-service.yaml,go-deployment.yaml

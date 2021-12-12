@@ -1,3 +1,4 @@
+#!/bin/bash
 FROM golang:latest
 WORKDIR /app
 COPY go.mod .

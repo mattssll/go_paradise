@@ -7,7 +7,7 @@ volumes:
 services:
 
   mysqldb:
-    platform: linux/x86_64  # fix for mac os m1
+    #platform: linux/x86_64  # fix for mac os m1, not accepted with kompose
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -16,15 +16,22 @@ services:
       MYSQL_DATABASE: testdb
     volumes:
       - "mysqlvolume:/app/local-mysql-db-data"
-  adminer: # to access mysql in port 8080
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+ # adminer: # to access mysql in port 8080
+ #   image: adminer
+ #   restart: always
+ #   ports:
+ #     - 8080:8080
   go:
     build: .
+    image: gcr.io/vectux-01/gomysqldocker
+    #platform: linux/x86_64
     ports:
     - "3000:3000"
     environment:
       - PORT=3000
+    depends_on:
+    - mysqldb
+    links:
+    - mysqldb
+
 
